@@ -1,0 +1,160 @@
+# Laravel Project Rules for Cursor AI
+
+## Project Overview
+
+This is a Laravel e-commerce application called "Lana Shop" with the following structure:
+
+-   Models: User, Category, Product, Order, OrderItem, Cart
+-   Controllers: Standard Laravel controllers
+-   Database migrations for all entities
+-   Blade views for frontend
+
+## CSS Framework
+
+-   Sử dụng Bootstrap 5 (BS5) để xây dựng và style giao diện người dùng. Tất cả các thành phần giao diện nên tuân theo chuẩn của Bootstrap 5.
+
+## Code Style & Standards
+
+### PHP/Laravel Standards
+
+-   Follow PSR-12 coding standards
+-   Use Laravel naming conventions:
+    -   Controllers: PascalCase (e.g., `ProductController`)
+    -   Models: PascalCase (e.g., `Product`)
+    -   Routes: kebab-case (e.g., `product-details`)
+    -   Database tables: snake_case (e.g., `order_items`)
+    -   Database columns: snake_case (e.g., `created_at`)
+-   Use Laravel Eloquent ORM for database operations
+-   Implement proper validation using Laravel Form Requests
+-   Use Laravel's built-in authentication and authorization
+
+### File Organization
+
+-   Keep controllers thin - move business logic to services or models
+-   Use resource classes for API responses
+-   Organize views in subdirectories by feature
+-   Use Laravel's service container for dependency injection
+
+### Database & Models
+
+-   Always use migrations for database changes
+-   Define relationships in models using Eloquent methods
+-   Use model factories for testing
+-   Implement proper model events and observers when needed
+-   Use database transactions for complex operations
+
+### Security
+
+-   Always validate and sanitize user input
+-   Use Laravel's CSRF protection
+-   Implement proper authorization using policies and gates
+-   Use Laravel's built-in security features (XSS protection, SQL injection prevention)
+-   Never expose sensitive data in responses
+
+### Testing
+
+-   Write tests for all business logic
+-   Use Laravel's testing helpers and assertions
+-   Test both happy path and edge cases
+-   Use database transactions in tests to ensure isolation
+
+## E-commerce Specific Rules
+
+### Product Management
+
+-   Products should have categories, prices, stock levels
+-   Implement proper inventory management
+-   Use soft deletes for products to maintain order history
+
+### Order Processing
+
+-   Orders should track status changes
+-   Implement proper order validation
+-   Use events for order status changes
+-   Calculate totals using proper decimal handling
+
+### Cart Functionality
+
+-   Implement session-based or database carts
+-   Handle cart expiration and cleanup
+-   Validate cart items against current product availability
+
+### User Management
+
+-   Implement proper user roles and permissions
+-   Use Laravel's authentication system
+-   Handle user profile management
+
+## Frontend Guidelines
+
+### Blade Templates
+
+-   Use Laravel Blade components for reusable UI elements
+-   Implement proper layouts and sections
+-   Use Laravel's asset compilation (Vite)
+-   Follow responsive design principles
+
+### JavaScript
+
+-   Use Alpine.js for interactive components
+-   Keep JavaScript minimal and focused
+-   Use Laravel's CSRF token for AJAX requests
+
+## API Development (if applicable)
+
+-   Use Laravel API Resources for consistent responses
+-   Implement proper HTTP status codes
+-   Use API versioning if needed
+-   Document APIs using tools like Swagger/OpenAPI
+
+## Performance & Optimization
+
+-   Use Laravel's caching mechanisms
+-   Implement proper database indexing
+-   Use eager loading to prevent N+1 queries
+-   Optimize database queries using Laravel's query builder
+
+## Error Handling
+
+-   Use Laravel's exception handling
+-   Log errors appropriately
+-   Provide user-friendly error messages
+-   Implement proper validation error handling
+
+## Deployment & Environment
+
+-   Use environment variables for configuration
+-   Follow Laravel's deployment best practices
+-   Use proper logging configuration
+-   Implement health checks for monitoring
+
+## Code Quality
+
+-   Write self-documenting code with clear variable names
+-   Add comments for complex business logic
+-   Use type hints where possible
+-   Follow SOLID principles
+-   Keep methods small and focused
+
+## When Making Changes
+
+1. Always consider backward compatibility
+2. Update tests when modifying functionality
+3. Check for potential security implications
+4. Consider performance impact
+5. Update documentation if needed
+6. Follow the existing code patterns in the project
+
+## File Naming Conventions
+
+-   Controllers: `{Model}Controller.php`
+-   Models: `{Model}.php`
+-   Migrations: `{timestamp}_{description}.php`
+-   Views: `{feature}/{action}.blade.php`
+-   Tests: `{Model}Test.php` or `{Feature}Test.php`
+
+## View Admin
+
+-   Các view của admin sẽ ở trong thư mục admin của views
+
+Remember to always prioritize code maintainability, security, and performance in this e-commerce application.

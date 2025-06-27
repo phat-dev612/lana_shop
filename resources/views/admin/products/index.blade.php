@@ -30,6 +30,7 @@
                                 <th>Sold</th>
                                 <th>Category</th>
                                 <th>Status</th>
+                                <th>Featured</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
@@ -59,6 +60,11 @@
                                 <td>
                                     <span class="badge bg-{{ $product->is_active ? 'success' : 'danger' }}">
                                         {{ $product->is_active ? 'Active' : 'Inactive' }}
+                                    </span>
+                                </td>
+                                <td>
+                                    <span class="badge bg-{{ $product->is_featured ? 'success' : 'danger' }}">
+                                        {{ $product->is_featured ? 'Featured' : 'Not Featured' }}
                                     </span>
                                 </td>
                                 <td>

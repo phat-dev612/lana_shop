@@ -99,19 +99,16 @@
                                 @enderror
                             </div>
                         </div>
-
                         <div class="mb-3">
-                            <label for="is_active" class="form-label">Status</label>
+                            <label for="is_featured" class="form-label">Featured</label>
                             <div class="form-check form-switch">
-                                <input class="form-check-input" type="checkbox" id="is_active" name="is_active" 
-                                       value="1" {{ old('is_active', $product->is_active) ? 'checked' : '' }}>
-                                <label class="form-check-label" for="is_active">
-                                    Active Product
+                                <input class="form-check-input" type="checkbox" id="is_featured" name="is_featured" 
+                                       value="1" {{ old('is_featured', $product->is_featured) ? 'checked' : '' }}>
+                                <label class="form-check-label" for="is_featured">
+                                    Featured Product
                                 </label>
                             </div>
-                            <small class="form-text text-muted">Inactive products won't be visible to customers</small>
                         </div>
-
                         <div class="mb-3">
                             <label for="is_preorder" class="form-label">Pre-order</label>
                             <div class="form-check form-switch">
@@ -122,6 +119,18 @@
                                 </label>
                             </div>
                             <small class="form-text text-muted">Pre-order products can be ordered before stock arrives</small>
+                        </div>
+                        
+                        <div class="mb-3">
+                            <label for="is_active" class="form-label">Status</label>
+                            <div class="form-check form-switch">
+                                <input class="form-check-input" type="checkbox" id="is_active" name="is_active" 
+                                       value="1" {{ old('is_active', $product->is_active) ? 'checked' : '' }}>
+                                <label class="form-check-label" for="is_active">
+                                    Active Product
+                                </label>
+                            </div>
+                            <small class="form-text text-muted">Inactive products won't be visible to customers</small>
                         </div>
                     </div>
                 </div>

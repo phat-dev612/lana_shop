@@ -74,6 +74,7 @@ class AdminController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'is_active' => 'boolean',
             'is_preorder' => 'boolean',
+            'is_featured' => 'boolean',
         ]);
 
         $data = $request->all();
@@ -98,8 +99,8 @@ class AdminController extends Controller
         // Set default values for boolean fields
         $data['is_active'] = $request->has('is_active');
         $data['is_preorder'] = $request->has('is_preorder');
+        $data['is_featured'] = $request->has('is_featured');
         $data['sold'] = 0;
-
         Product::create($data);
 
         return redirect()->route('admin.products')->with('success', 'Product created successfully');
@@ -120,6 +121,7 @@ class AdminController extends Controller
             'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,webp|max:2048',
             'is_active' => 'boolean',
             'is_preorder' => 'boolean',
+            'is_featured' => 'boolean',
         ]);
         $data = $request->all();
         $data['slug'] = Str::slug($request->name);
@@ -138,6 +140,9 @@ class AdminController extends Controller
                     ->with('error', 'Failed to upload image. Please try again.');
             }
         }
+        $data['is_featured'] = $request->has('is_featured');
+        $data['is_active'] = $request->has('is_active');
+        $data['is_preorder'] = $request->has('is_preorder');
         $product->update($data);
         return redirect()->route('admin.products')->with('success', 'Product updated successfully');
     }

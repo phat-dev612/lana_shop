@@ -98,7 +98,7 @@
                 <hr class="text-white-50">
                 
                 <nav class="nav flex-column">
-                    <a class="nav-link" href="{{ route('home') }}">
+                    <a class="nav-link" href="{{ route('customer.home') }}">
                         <i class="fas fa-home"></i> Back to Shop
                     </a>
                     <form method="POST" action="{{ route('logout') }}" class="d-inline">

@@ -23,4 +23,12 @@ class Category extends Model
     {
         return $this->hasMany(Product::class);
     }
+
+    /**
+     * Sử dụng slug cho Route Model Binding.
+     */
+    public function getRouteKeyName(): string
+    {
+        return 'slug';
+    }
 } 

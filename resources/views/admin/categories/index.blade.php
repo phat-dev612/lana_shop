@@ -23,7 +23,7 @@
                     <table class="table table-bordered" width="100%" cellspacing="0">
                         <thead>
                             <tr>
-                                <th>ID</th>
+                                <th>STT</th>
                                 <th>Name</th>
                                 <th>Slug</th>
                                 <th>Description</th>
@@ -35,7 +35,7 @@
                         <tbody>
                             @foreach($categories as $category)
                             <tr>
-                                <td>{{ $category->id }}</td>
+                                <td>{{ $loop->iteration }}</td>
                                 <td>
                                     <strong>{{ $category->name }}</strong>
                                 </td>

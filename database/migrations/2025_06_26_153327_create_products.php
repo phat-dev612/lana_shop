@@ -21,6 +21,7 @@ return new class extends Migration
             $table->decimal('price', 10, 2);
             $table->integer('sold')->default(0);
             $table->boolean('is_active')->default(true);
+            $table->boolean('is_featured')->default(false);
             $table->boolean('is_preorder')->default(false);
             $table->timestamps();
         });

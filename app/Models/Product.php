@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Product extends Model
 {
@@ -20,6 +21,7 @@ class Product extends Model
         'sold',
         'is_active',
         'is_preorder',
+        'is_featured',
     ];
 
     protected $casts = [
@@ -27,6 +29,7 @@ class Product extends Model
         'sold' => 'integer',
         'is_active' => 'boolean',
         'is_preorder' => 'boolean',
+        'is_featured' => 'boolean',
     ];
 
     /**
@@ -35,5 +38,13 @@ class Product extends Model
     public function category(): BelongsTo
     {
         return $this->belongsTo(Category::class);
+    }
+
+    /**
+     * Get the cart items for this product.
+     */
+    public function cartItems(): HasMany
+    {
+        return $this->hasMany(Cart::class);
     }
 } 

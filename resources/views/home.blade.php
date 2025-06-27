@@ -12,39 +12,55 @@
         </div>
     </div>
     <hr>
+    <!-- Danh mục sản phẩm -->
+    <h2 class="mb-4 text-center">Danh mục sản phẩm</h2>
+    @if ($categories->count() <= 10)
+    <div class="row g-4 justify-content-center">
+        @foreach($categories as $category)
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-body text-center">
+                        <a href="{{ route('customer.category', $category->slug) }}" class="text-decoration-none">
+                            <h6 class="card-title text-primary fw-bold mb-0">{{ $category->name }}</h6>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        @endforeach
+    </div>
+    @else
+    <div class="row g-4 justify-content-center">
+        <div class="col-12">
+            <div class="row flex-nowrap overflow-auto" style="scrollbar-width: thin;">
+                @foreach($categories as $category)
+                    <div class="col-md-3 flex-shrink-0" style="min-width: 200px;">
+                        <div class="card h-100">
+                            <div class="card-body text-center">
+                                <a href="{{ route('customer.category', $category->slug) }}" class="text-decoration-none">
+                                    <h6 class="card-title text-primary fw-bold mb-0">{{ $category->name }}</h6>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                @endforeach
+            </div>
+        </div>
+    </div>
+    @endif
+    <!-- sản phẩm nổi bật -->
     <h2 class="mb-4 text-center">Sản phẩm nổi bật</h2>
     <div class="row g-4 justify-content-center">
-        <!-- Placeholder sản phẩm, sau này sẽ render động -->
-        <div class="col-6 col-md-4 col-lg-3">
-            <div class="card h-100 shadow-sm">
-                <img src="https://via.placeholder.com/300x200?text=Product+1" class="card-img-top" alt="Product 1">
-                <div class="card-body">
-                    <h5 class="card-title">Sản phẩm 1</h5>
-                    <p class="card-text">Mô tả ngắn sản phẩm 1.</p>
-                    <a href="#" class="btn btn-sm btn-outline-primary">Xem chi tiết</a>
-                </div>
+        @forelse($featuredProducts ?? [] as $product)
+            <x-product-card :product="$product" />
+        @empty
+           <!-- không có sản phẩm nổi bật -->
+           <div class="col-12">
+            <div class="alert alert-info">
+                Không có sản phẩm nổi bật.
             </div>
-        </div>
-        <div class="col-6 col-md-4 col-lg-3">
-            <div class="card h-100 shadow-sm">
-                <img src="https://via.placeholder.com/300x200?text=Product+2" class="card-img-top" alt="Product 2">
-                <div class="card-body">
-                    <h5 class="card-title">Sản phẩm 2</h5>
-                    <p class="card-text">Mô tả ngắn sản phẩm 2.</p>
-                    <a href="#" class="btn btn-sm btn-outline-primary">Xem chi tiết</a>
-                </div>
-            </div>
-        </div>
-        <div class="col-6 col-md-4 col-lg-3">
-            <div class="card h-100 shadow-sm">
-                <img src="https://via.placeholder.com/300x200?text=Product+3" class="card-img-top" alt="Product 3">
-                <div class="card-body">
-                    <h5 class="card-title">Sản phẩm 3</h5>
-                    <p class="card-text">Mô tả ngắn sản phẩm 3.</p>
-                    <a href="#" class="btn btn-sm btn-outline-primary">Xem chi tiết</a>
-                </div>
-            </div>
-        </div>
+           </div>
+            
+        @endforelse
     </div>
 </div>
 @endsection

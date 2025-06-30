@@ -18,6 +18,6 @@ RUN composer install
 RUN chown -R www-data:www-data /var/www \
     && chmod -R 775 /var/www/storage /var/www/bootstrap/cache
 
-COPY entrypoint.sh /var/www/entrypoint.sh
-RUN chmod +x /var/www/entrypoint.sh
-ENTRYPOINT ["/var/www/entrypoint.sh"]
+COPY entrypoint.sh /entrypoint.sh
+RUN chmod +x /entrypoint.sh
+ENTRYPOINT ["/entrypoint.sh"]

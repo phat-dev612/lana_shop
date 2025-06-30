@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # Chờ MySQL sẵn sàng
 until php -r "new PDO('mysql:host=db;dbname=lana_shop', 'root', 'root');" 2>/dev/null; do

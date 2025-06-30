@@ -1,16 +1,27 @@
 #!/bin/bash
 
-# Chờ MySQL sẵn sàng
-until php -r "new PDO('mysql:host=db;dbname=lana_shop', 'root', 'root');" 2>/dev/null; do
-  echo "Waiting for MySQL..."
+set -e
+
+cd /var/www
+
+# Install Composer nếu vendor chưa có
+if [ ! -d "vendor" ]; then
+  echo "📦 Installing composer dependencies..."
+  composer install --no-interaction --prefer-dist
+fi
+
+# Chờ MySQL
+until php -r "new PDO('mysql:host=mysql-db;dbname=lana_shop', 'root', 'root');" 2>/dev/null; do
+  echo "⏳ Waiting for MySQL..."
   sleep 2
 done
 
-# Generate key nếu chưa có
+# Laravel setup
+echo "🔑 Generating key..."
 php artisan key:generate --force
 
-# Chạy migrate
+echo "🗃️ Running migrations..."
 php artisan migrate --force
 
-# Khởi động php-fpm
-php-fpm
+echo "🚀 Starting PHP-FPM..."
+exec php-fpm

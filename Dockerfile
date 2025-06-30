@@ -12,7 +12,7 @@ WORKDIR /var/www
 
 COPY . .
 
-RUN composer install
+# RUN composer install
 
 # Phân quyền
 RUN chown -R www-data:www-data /var/www \

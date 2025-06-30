@@ -11,7 +11,7 @@
             <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-success shadow-sm me-2">
                 <i class="fas fa-download fa-sm text-white-50"></i> Export Orders
             </a>
-            <a href="#" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
+            <a href="{{ route('admin.orders.create') }}" class="d-none d-sm-inline-block btn btn-sm btn-primary shadow-sm">
                 <i class="fas fa-plus fa-sm text-white-50"></i> Create Order
             </a>
         </div>
@@ -27,8 +27,9 @@
                 <div class="table-responsive">
                     <table class="table table-bordered" width="100%" cellspacing="0">
                         <thead>
-                            <tr>
-                                <th>Order ID</th>
+                            <tr class="text-center">
+                                <th>STT</th>
+                                <th>Order Code</th>
                                 <th>Customer</th>
                                 <th>Total Amount</th>
                                 <th>Status</th>
@@ -39,17 +40,18 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($orders as $order)
+                            @foreach($orders as $key => $order)
                             <tr>
-                                <td>#{{ $order->id }}</td>
+                                <td class="text-center">{{ $key + 1 }}</td>
+                                <td class="text-center">{{ $order->order_number }}</td>
                                 <td>
                                     <div>
                                         <strong>{{ $order->name }}</strong><br>
                                         <small class="text-muted">{{ $order->user->email ?? 'N/A' }}</small>
                                     </div>
-                                </td>
-                                <td>${{ number_format($order->total_amount, 2) }}</td>
-                                <td>
+                                </td>   
+                                <td>{{ number_format($order->total_amount) }} VND</td>
+                                <td class="text-center">
                                     <span class="badge bg-{{ 
                                         $order->status === 'completed' ? 'success' : 
                                         ($order->status === 'pending' ? 'warning' : 
@@ -58,7 +60,7 @@
                                         {{ ucfirst($order->status) }}
                                     </span>
                                 </td>
-                                <td>
+                                <td class="text-center">
                                     <span class="badge bg-{{ 
                                         $order->payment_status === 'paid' ? 'success' : 
                                         ($order->payment_status === 'pending' ? 'warning' : 'danger') 
@@ -66,24 +68,17 @@
                                         {{ ucfirst($order->payment_status) }}
                                     </span>
                                 </td>
-                                <td>
+                                <td class="text-center">
                                     <span class="badge bg-info">{{ ucfirst($order->payment_method) }}</span>
                                 </td>
                                 <td>{{ $order->created_at->format('M d, Y H:i') }}</td>
-                                <td>
+                                <td class="text-center">
                                     <div class="btn-group" role="group">
-                                        <a href="#" class="btn btn-sm btn-outline-primary" title="Edit">
-                                            <i class="fas fa-edit"></i>
-                                        </a>
-                                        <a href="#" class="btn btn-sm btn-outline-info" title="View Details">
+                                        
+                                        <a href="{{ route('admin.orders.show', $order->id) }}" class="btn btn-sm btn-outline-info" title="View Details">
                                             <i class="fas fa-eye"></i>
                                         </a>
-                                        <button type="button" class="btn btn-sm btn-outline-success" title="Mark as Completed">
-                                            <i class="fas fa-check"></i>
-                                        </button>
-                                        <button type="button" class="btn btn-sm btn-outline-danger" title="Cancel">
-                                            <i class="fas fa-times"></i>
-                                        </button>
+                                        
                                     </div>
                                 </td>
                             </tr>
@@ -100,7 +95,7 @@
                 <div class="text-center py-4">
                     <i class="fas fa-shopping-cart fa-3x text-gray-300 mb-3"></i>
                     <p class="text-muted">No orders found.</p>
-                    <a href="#" class="btn btn-primary">
+                    <a href="{{ route('admin.orders.create') }}" class="btn btn-primary">
                         <i class="fas fa-plus"></i> Create First Order
                     </a>
                 </div>

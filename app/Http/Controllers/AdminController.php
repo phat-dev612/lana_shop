@@ -6,7 +6,9 @@ use App\Models\User;
 use App\Models\Product;
 use App\Models\Order;
 use App\Models\Category;
+use App\Models\OrderItem;
 use App\Services\CloudinaryService;
+use App\Http\Requests\CreateOrderRequest;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use Illuminate\Support\Str;
@@ -217,5 +219,115 @@ class AdminController extends Controller
         
         $category->delete();
         return redirect()->route('admin.categories')->with('success', 'Category deleted successfully');
+    }
+
+    /**
+     * Display order detail page
+     */
+    public function showOrder($id): View
+    {
+        $order = Order::with(['user', 'orderItems.product'])->findOrFail($id);
+        return view('admin.orders.show', compact('order'));
+    }
+
+    /**
+     * Update order status
+     */
+    public function updateOrderStatus(Request $request, $id)
+    {
+        $request->validate([
+            'status' => 'required|in:pending,processing,shipped,completed,cancelled',
+            'payment_status' => 'required|in:pending,paid,failed',
+            'notes' => 'nullable|string|max:1000',
+        ]);
+
+        $order = Order::findOrFail($id);
+        
+        $oldStatus = $order->status;
+        $oldPaymentStatus = $order->payment_status;
+        
+        $order->update([
+            'status' => $request->status,
+            'payment_status' => $request->payment_status,
+            'notes' => $request->notes,
+        ]);
+
+        // Log status change
+        $statusChange = [];
+        if ($oldStatus !== $request->status) {
+            $statusChange[] = "Order status changed from " . ucfirst($oldStatus) . " to " . ucfirst($request->status);
+        }
+        if ($oldPaymentStatus !== $request->payment_status) {
+            $statusChange[] = "Payment status changed from " . ucfirst($oldPaymentStatus) . " to " . ucfirst($request->payment_status);
+        }
+
+        $message = 'Order updated successfully';
+        if (!empty($statusChange)) {
+            $message .= '. ' . implode(', ', $statusChange);
+        }
+
+        return redirect()->route('admin.orders.show', $id)->with('success', $message);
+    }
+
+    /**
+     * Display create order form
+     */
+    public function createOrder(): View
+    {
+        $users = User::where('role', 'customer')->get();
+        $products = Product::where('is_active', true)->get();
+        return view('admin.orders.create', compact('users', 'products'));
+    }
+
+    /**
+     * Store new order
+     */
+    public function storeOrder(CreateOrderRequest $request)
+    {
+        // Generate order number
+        $orderNumber = 'ORD-' . date('Ymd') . '-' . strtoupper(Str::random(6));
+
+        // Calculate totals
+        $subtotal = 0;
+        foreach ($request->items as $item) {
+            $product = Product::find($item['product_id']);
+            $subtotal += $product->price * $item['quantity'];
+        }
+        $total = $subtotal + $request->shipping_fee;
+
+        // Create order
+        $order = Order::create([
+            'user_id' => $request->user_id,
+            'order_number' => $orderNumber,
+            'name' => $request->name,
+            'phone' => $request->phone,
+            'address' => $request->address,
+            'shipping_name' => $request->shipping_name,
+            'shipping_phone' => $request->shipping_phone,
+            'shipping_address' => $request->shipping_address,
+            'subtotal' => $subtotal,
+            'shipping_fee' => $request->shipping_fee,
+            'total_amount' => $total,
+            'total' => $total,
+            'status' => 'pending',
+            'payment_method' => $request->payment_method,
+            'payment_status' => 'pending',
+            'notes' => $request->notes,
+        ]);
+
+        // Create order items
+        foreach ($request->items as $item) {
+            $product = Product::find($item['product_id']);
+            OrderItem::create([
+                'order_id' => $order->id,
+                'product_id' => $item['product_id'],
+                'product_name' => $product->name,
+                'quantity' => $item['quantity'],
+                'price' => $product->price,
+            ]);
+        }
+
+        return redirect()->route('admin.orders.show', $order->id)
+            ->with('success', 'Order created successfully with order number: ' . $orderNumber);
     }
 } 

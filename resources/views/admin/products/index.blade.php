@@ -23,7 +23,7 @@
                     <table class="table table-bordered" width="100%" cellspacing="0">
                         <thead>
                             <tr>
-                                <th>ID</th>
+                                <th>STT</th>
                                 <th>Image</th>
                                 <th>Name</th>
                                 <th>Price</th>
@@ -35,9 +35,9 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach($products as $product)
+                            @foreach($products as $key => $product)
                             <tr>
-                                <td>{{ $product->id }}</td>
+                                <td>{{ $key + 1 }}</td>
                                 <td>
                                     @if($product->image_url)
                                         <img src="{{ \App\Helpers\ImageHelper::getProductThumbnail($product->image_url) }}" 

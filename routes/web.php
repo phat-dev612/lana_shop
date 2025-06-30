@@ -31,6 +31,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::put('/products/{id}', [AdminController::class, 'updateProduct'])->name('products.update');
     Route::delete('/products/{id}', [AdminController::class, 'deleteProduct'])->name('products.destroy');
     Route::get('/orders', [AdminController::class, 'orders'])->name('orders');
+    Route::get('/orders/create', [AdminController::class, 'createOrder'])->name('orders.create');
+    Route::post('/orders', [AdminController::class, 'storeOrder'])->name('orders.store');
+    Route::get('/orders/{id}', [AdminController::class, 'showOrder'])->name('orders.show');
+    Route::put('/orders/{id}/status', [AdminController::class, 'updateOrderStatus'])->name('orders.update-status');
     Route::get('/categories', [AdminController::class, 'categories'])->name('categories');
     Route::post('/categories', [AdminController::class, 'storeCategory'])->name('categories.store');
     Route::put('/categories/{id}', [AdminController::class, 'updateCategory'])->name('categories.update');

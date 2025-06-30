@@ -16,8 +16,6 @@ class OrderItem extends Model
         'product_name',
         'quantity',
         'price',
-        'subtotal',
-        'total_price',
     ];
 
     protected $casts = [
@@ -26,6 +24,15 @@ class OrderItem extends Model
         'total_price' => 'decimal:2',
     ];
 
+    public function getSubtotalAttribute()
+    {
+        return $this->price * $this->quantity;
+    }
+
+    public function getTotalPriceAttribute()
+    {
+        return $this->subtotal + $this->shipping_fee;
+    }
     /**
      * Get the order that owns the order item.
      */

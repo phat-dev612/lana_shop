@@ -15,6 +15,11 @@ php artisan key:generate --force
 # Chạy migrate
 php artisan migrate --force
 
+if [ ! -f public/build/manifest.json ]; then
+  echo "Building frontend assets..."
+  npm ci
+  npm run build
+fi
 
 # Khởi động php-fpm
 php-fpm

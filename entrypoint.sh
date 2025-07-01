@@ -7,22 +7,13 @@ until php -r "new PDO('mysql:host=db;dbname=lana_shop', 'root', 'root');" 2>/dev
 done
 
 # Cài composer
-RUN composer install
-
-# Cài npm
-RUN npm install
-
-# Build assets
-RUN npm run build
-
-
+composer install
 
 # Generate key nếu chưa có
 php artisan key:generate --force
 
 # Chạy migrate
 php artisan migrate --force
-
 
 
 # Khởi động php-fpm

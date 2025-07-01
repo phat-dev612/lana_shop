@@ -22,6 +22,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        if (config('app.env') === 'production') {
+            \URL::forceScheme('https');
+        }
         // Share cart count to all views
         View::composer('*', function ($view) {
             if (Auth::check()) {
